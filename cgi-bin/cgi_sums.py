@@ -5,8 +5,14 @@ import cgitb
 cgitb.enable()
 
 form = cgi.FieldStorage()
-listval = map(int, form.getlist('operand'))
+operands = form.getlist('operand')
+
+try:
+    total = sum(map(int, operands))
+    body = "Your total is: {}".format(total)
+except (ValueError, TypeError):
+    body = "Unable to calculate a sum: please provide integer operands."
 
 print("Content-type: text/plain")
 print()
-print(sum(listval))
+print(body)
